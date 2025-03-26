@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<title>Hello</title>
+Number: {{ randomnum }}<br>
+Generation One Pokemon: {{ gen_one_pokemon}}<br>
+<img src="https://github.com/nerdydrew/Random-Pokemon-Generator/raw/refs/heads/main/public/sprites/normal/{{gen_one_pokemon | lower}}.webp">
+<form action="/" method="post">
+<input type="checkbox" id="one" name="one" value="value1">
+<label for="one"> Generation one</label><br> 
+<input type="checkbox" id="two" name="two" value="value2">
+<label for="one">Generation two</label><br> 
+<input type="checkbox" id="three" name="fully_evolved" value="fully_evolved">
+<label for="one">Fully evolved?</label><br> 
+
+
+<label for="pokemon_type">Pokemon Type:</label>
+<select> id="pokemon_type" name="pokemon_type"
+    <option value="fire">Fire</option>
+    <option value="Water">Water</option>
+    <option value="Grass">Grass</option>
+    <option value="Normal">Normal</option>
+    <option value="Electric">Electric</option>
+    <option value="Ice">Ice</option>
+    <option value="Fighting">Fighting</option>
+    <option value="Poison">Poison</option>
+    <option value="Ground">Ground</option>
+    <option value="Flying">Flying</option>
+    <option value="Psychic">Psychic</option>
+    <option value="Bug">Bug</option>
+    <option value="Rock">Rock</option>
+    <option value="Ghost">Ghost</option>
+    <option value="Dragon">Dragon</option>
+    <option value="Dark">Dark</option>
+    <option value="Steel">Steel</option>
+
+
+</select><br><br>
+<input type="submit" value="Submit">
+</form>
