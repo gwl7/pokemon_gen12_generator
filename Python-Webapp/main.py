@@ -1,137 +1,68 @@
-from website import create_app
+from website import create_app #create_app is function created in website folder, init file
 import random
-from flask import render_template, request
+from flask import render_template, request #imports jinja2 framework (passes code from py to html format)
 import json
 from pprint import pprint as pp
 
 
-app = create_app()
+app = create_app() #creates app
 
-@app.route("/json_testing")
-def json_testing(): 
-     with open('/home/gwl7/PokemonGenerator/Python-Webapp/johto.json') as fh:
-          d = json.loads(fh.read())
-          pp(d[0])
-          print(d[0])
-     return(d)
 
-#loop through the json, grabbing all names
-#loop through and grab all fire types
-#list of all 2nd + 3rd evolutions
-#list of each type
-#app.route("/")
-def random_test():
-    return "<p>Pokemon Generator Home</p>"
+
+
 
 @app.route("/", methods=["POST", "GET"])
 
-def randomtemplate():
-     if request.method == "POST":
-          selected_type = request.form.get("pokemon_type")
-          print(request.form)
+def testtesmplate():
+     if request.method == "POST": #if form is submitted
 
-      
-          with open('/home/gwl7/PokemonGenerator/Python-Webapp/johto.json', "r") as fh:
-          
-               data = json.load(fh)
+          with open('johto.json', "r") as fh: 
+                    data = json.load(fh)   #load in johto.json
+     
+          chosen_type = request.form.get('pokemon_type')
+          gen_one_selected = request.form.get('Generation_one') == "value1"
+          gen_two_selected = request.form.get('Generation_two') == "value2"
+          fully_evolved_selected = request.form.get("fully evolved") == "fully_evolved"
 
-          fully_evolved = []    
+          resulting_pokemon = []
 
-          for record in data:
+          for pokemon in data:
+               if chosen_type not in pokemon['types']:
+                    continue
 
-           if not record.get("isNfe"):
-                 fully_evolved.append(record)
+               if gen_one_selected and pokemon['id'] >= 152:
+                     continue
+               if gen_two_selected and pokemon["id"] < 152:
+                     continue
+               if not gen_one_selected and not gen_two_selected:
+                     pass #allow all generations
+               
+               if fully_evolved_selected and not "isNfe" in pokemon:
+                     continue
+               resulting_pokemon.append(pokemon['name'])
 
-          randomnum=random.randint(0,len(fully_evolved))
-          return render_template('randtest.html', randomnum=randomnum, gen_one_pokemon=fully_evolved[randomnum])
+               if resulting_pokemon:
+                     generate_random = random.choice(resulting_pokemon)
 
-          #return request.form
+               else:
+                     generate_random = "No matching"
+
+
+               
+               print("Fully evolved checkbox value:", request.form.get("fully_evolved"))
+               print(f"{pokemon['name']} - isNfe: {pokemon.get('isNfe')}")
+
+
+          return render_template('randtest.html', pokemon_picture=generate_random)
+                    
+                    
+
      else:
-          gen_one_names = [
-               "Bulbasaur", "Ivysaur", "Venusaur",
-               "Charmander", "Charmeleon", "Charizard",
-               "Squirtle", "Wartortle", "Blastoise",
-               "Caterpie", "Metapod", "Butterfree",
-               "Weedle", "Kakuna", "Beedrill",
-               "Pidgey", "Pidgeotto", "Pidgeot",
-               "Rattata", "Raticate",
-               "Spearow", "Fearow",
-               "Ekans", "Arbok",
-               "Pikachu", "Raichu",
-               "Sandshrew", "Sandslash",
-               "Nidoran♀", "Nidorina", "Nidoqueen",
-               "Nidoran♂", "Nidorino", "Nidoking",
-               "Clefairy", "Clefable",
-               "Vulpix", "Ninetales",
-               "Jigglypuff", "Wigglytuff",
-               "Zubat", "Golbat",
-               "Oddish", "Gloom", "Vileplume",
-               "Paras", "Parasect",
-               "Venonat", "Venomoth",
-               "Diglett", "Dugtrio",
-               "Meowth", "Persian",
-               "Psyduck", "Golduck",
-               "Mankey", "Primeape",
-               "Growlithe", "Arcanine",
-               "Poliwag", "Poliwhirl", "Poliwrath",
-               "Abra", "Kadabra", "Alakazam",
-               "Machop", "Machoke", "Machamp",
-               "Bellsprout", "Weepinbell", "Victreebel",
-               "Tentacool", "Tentacruel",
-               "Geodude", "Graveler", "Golem",
-               "Ponyta", "Rapidash",
-               "Slowpoke", "Slowbro",
-               "Magnemite", "Magneton",
-               "Farfetch’d",
-               "Doduo", "Dodrio",
-               "Seel", "Dewgong",
-               "Grimer", "Muk",
-               "Shellder", "Cloyster",
-               "Gastly", "Haunter", "Gengar",
-               "Onix",
-               "Drowzee", "Hypno",
-               "Krabby", "Kingler",
-               "Voltorb", "Electrode",
-               "Exeggcute", "Exeggutor",
-               "Cubone", "Marowak",
-               "Hitmonlee", "Hitmonchan",
-               "Lickitung",
-               "Koffing", "Weezing",
-               "Rhyhorn", "Rhydon",
-               "Chansey",
-               "Tangela",
-               "Kangaskhan",
-               "Horsea", "Seadra",
-               "Goldeen", "Seaking",
-               "Staryu", "Starmie",
-               "Mr. Mime",
-               "Scyther",
-               "Jynx",
-               "Electabuzz",
-               "Magmar",
-               "Pinsir",
-               "Tauros",
-               "Magikarp", "Gyarados",
-               "Lapras",
-               "Ditto",
-               "Eevee", "Vaporeon", "Jolteon", "Flareon",
-               "Porygon",
-               "Omanyte", "Omastar",
-               "Kabuto", "Kabutops",
-               "Aerodactyl",
-               "Snorlax",
-               "Articuno", "Zapdos", "Moltres",
-               "Dratini", "Dragonair", "Dragonite",
-               "Mewtwo", "Mew"]
-          
-          randomnum=random.randint(0,len(gen_one_names))
-          return render_template('randtest.html', randomnum=randomnum, gen_one_pokemon=gen_one_names[randomnum])
-
-
+          return render_template('randtest.html')
 
 
 
 
 if __name__ == '__main__':
-    app.run(debug=True)
+     app.run(debug=True)
 
