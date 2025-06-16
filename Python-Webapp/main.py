@@ -3,17 +3,17 @@ import random
 from flask import render_template, request #imports jinja2 framework (passes code from py to html format)
 import json
 from pprint import pprint as pp
-
+import psycopg2
 
 app = create_app() #creates app
-
-
-
 
 
 @app.route("/", methods=["POST", "GET"])
 
 def testtesmplate():
+     
+     page_count=index()
+
      if request.method == "POST": #if form is submitted
 
           with open('johto.json', "r") as fh: 
@@ -53,14 +53,33 @@ def testtesmplate():
                print(f"{pokemon['name']} - isNfe: {pokemon.get('isNfe')}")
 
 
-          return render_template('randtest.html', pokemon_picture=generate_random)
+          return render_template('randtest.html', pokemon_picture=generate_random, page_count=page_count)
                     
                     
 
      else:
-          return render_template('randtest.html')
+          return render_template('randtest.html', page_count=page_count)
 
+     
+def get_db_connection():
+      return psycopg2.connect(
+            host="ep-raspy-cake-a4er20z3-pooler.us-east-1.aws.neon.tech",
+            database="neondb",
+            user='neondb_owner',
+            password="npg_Aj9IicxVR6Og" 
+      )
 
+def index():
+      conn = get_db_connection()
+      cur = conn.cursor()
+      cur.execute('UPDATE page_counter SET count = count + 1 WHERE id = 1 RETURNING count;')
+      new_count = cur.fetchone()[0]
+      conn.commit()
+      cur.close()
+      conn.close()
+      return(new_count)
+
+      
 
 
 if __name__ == '__main__':
