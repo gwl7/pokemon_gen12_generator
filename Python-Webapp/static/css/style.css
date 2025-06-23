@@ -1,0 +1,27 @@
+body {
+background-image: url("../images/pokemongenerator.png");
+}
+
+.content {
+    text-align: center;        /* center text inside content */
+    padding: 20px;
+    border-radius: 12px;       /* optional: rounded corners */
+    color: rgb(241, 238, 222);
+    font-size: 30px;
+    font-family: Arial;
+}
+
+.main_picture {
+  width: 200px;   
+  height: auto;  
+}
+
+
+.dropdown {
+ background-color: #222;   /* Background color */
+  color: rgb(216, 0, 0);             /* Text color */
+  border: 1px solid #444;
+  padding: 10px;
+  font-size: 16px;
+  border-radius: 5px;
+}

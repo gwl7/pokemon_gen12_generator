@@ -40,7 +40,6 @@ def testtesmplate():
                if fully_evolved_selected and not "isNfe" in pokemon:
                      continue
                resulting_pokemon.append(pokemon['name'])
-
                if resulting_pokemon:
                      generate_random = random.choice(resulting_pokemon)
 
@@ -53,12 +52,12 @@ def testtesmplate():
                print(f"{pokemon['name']} - isNfe: {pokemon.get('isNfe')}")
 
 
-          return render_template('randtest.html', pokemon_picture=generate_random, page_count=page_count)
+          return render_template('index.html', pokemon_picture=generate_random, page_count=page_count)
                     
                     
 
      else:
-          return render_template('randtest.html', page_count=page_count)
+          return render_template('index.html', page_count=page_count)
 
      
 def get_db_connection():
@@ -83,5 +82,5 @@ def index():
 
 
 if __name__ == '__main__':
-     app.run(debug=True)
+     app.run(debug=True, host='0.0.0.0', port=5000)
 
