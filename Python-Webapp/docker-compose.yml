@@ -5,13 +5,13 @@ services:
     ports:
         - "5000:5000"
     environment:
-    - DATABASE_URL=postgres://neondb_owner:npg_Aj9IicxVR6Og@ep-raspy-cake-a4er20z3.us-east-1.aws.neon.tech/neondb?sslmode=require
+    - DATABASE_URL={$POSTGRES_URL_NON_POOLING}
     depends_on:
         - db
   db:
     image: postgres:17.5
     environment:
-        - POSTGRES_PASSWORD=npg_Aj9IicxVR6Og
+        - POSTGRES_PASSWORD=${PGPASSWORD}
         - POSTGRES_DB=myapp
     volumes:
             - postgres_data:/var/lib/postgresql/data
