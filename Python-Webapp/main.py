@@ -4,9 +4,12 @@ from flask import render_template, request #imports jinja2 framework (passes cod
 import json
 from pprint import pprint as pp
 import psycopg2
+import os
+from dotenv import load_dotenv
 
 app = create_app() #creates app
 
+load_dotenv()
 
 @app.route("/", methods=["POST", "GET"])
 
@@ -62,11 +65,12 @@ def testtesmplate():
      
 def get_db_connection():
       return psycopg2.connect(
-            host="ep-raspy-cake-a4er20z3-pooler.us-east-1.aws.neon.tech",
-            database="neondb",
-            user='neondb_owner',
-            password="npg_Aj9IicxVR6Og" 
-      )
+        host=os.environ["PGHOST"],
+        database=os.environ["PGDATABASE"],
+        user=os.environ["PGUSER"],
+        password=os.environ["PGPASSWORD"],
+        sslmode="require"
+    )
 
 def index():
       conn = get_db_connection()

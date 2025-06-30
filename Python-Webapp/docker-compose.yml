@@ -1,18 +1,11 @@
 version: '3'
 services:
   web:
-    build: ./
+    build: .
     ports:
         - "5000:5000"
-    environment:
-    - DATABASE_URL={$POSTGRES_URL_NON_POOLING}
-    depends_on:
-        - db
-  db:
-    image: postgres:17.5
-    environment:
-        - POSTGRES_PASSWORD=${PGPASSWORD}
-        - POSTGRES_DB=myapp
+    env_file:
+      - .env
     volumes:
             - postgres_data:/var/lib/postgresql/data
 
