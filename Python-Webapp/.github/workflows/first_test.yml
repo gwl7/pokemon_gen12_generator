@@ -1,13 +1,4 @@
-- permissions:
-  contents: read
 
-- uses: actions/checkout@v4
-  with:
-    sparse-checkout: |
-      .github
-      src
-
----
 name: Lint
 
 on: # yamllint disable-line rule:truthy
