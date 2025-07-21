@@ -43,7 +43,7 @@ jobs:
           file: ./Python-Webapp/Dockerfile
           context: ./Python-Webapp
           push: true
-          tags: ghcr.io/gwl7/<REPO>:pokemon_gen12_generator
+          tags: ghcr.io/gwl7/pokemon_gen12_generator:latest
 
       - name: Super-linter
         uses: super-linter/super-linter@v7.4.0 # x-release-please-version
