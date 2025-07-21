@@ -33,9 +33,6 @@ jobs:
           push: true
           tags: user/app:latest
 
-
-          - name: Build and push
-
       - name: Super-linter
         uses: super-linter/super-linter@v7.4.0 # x-release-please-version
         env:
