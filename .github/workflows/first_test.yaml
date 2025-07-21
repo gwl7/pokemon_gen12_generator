@@ -48,7 +48,7 @@ jobs:
       - name: Run Trivy vulnerability scan
         uses: aquasecurity/trivy-action@0.30.0
         with:
-          image-ref: 'my-app:latest'
+          image-ref: 'ghcr.io/gwl7/pokemon_gen12_generator:latest
           format: 'sarif'
           exit-code: 0    #allow build to finish even if vulnerabilities are found
           severity: 'CRITICAL,HIGH'
