@@ -28,9 +28,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          file: ~/Python-Webapp/Dockerfile
+          file: ./Python-Webapp/Dockerfile
+          context: ./Python-Webapp
           push: true
           tags: user/app:latest
+
 
           - name: Build and push
 
