@@ -1,4 +1,4 @@
-name: Lint
+name: mainpipeline
 
 on: # yamllint disable-line rule:truthy
   push: null
@@ -28,8 +28,11 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
+          file: ~/Python-Webapp/Dockerfile
           push: true
           tags: user/app:latest
+
+          - name: Build and push
 
       - name: Super-linter
         uses: super-linter/super-linter@v7.4.0 # x-release-please-version
