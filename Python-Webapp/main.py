@@ -53,7 +53,7 @@ def testtesmplate():
                
                print("Fully evolved checkbox value:", request.form.get("fully_evolved"))
                print(f"{pokemon['name']} - isNfe: {pokemon.get('isNfe')}")
-               print("testing workflow")
+               
 
 
           return render_template('index.html', pokemon_picture=generate_random, page_count=page_count)
