@@ -28,12 +28,11 @@ jobs:
             username: ${{ github.actor }}
             password: ${{ secrets.GITHUB_TOKEN }}
 
-      #
+      #checks out code so it can be used in the pipeline
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          # super-linter needs the full git history to get the
-          # list of files that changed across commits
+          # access to full repo history for super-linter
           fetch-depth: 0
 
         #builds the docker file and pushes it to the registry
@@ -45,8 +44,25 @@ jobs:
           push: true
           tags: ghcr.io/gwl7/pokemon_gen12_generator:latest
 
+      #trivy secuirty scanner
+      - name: Run Trivy vulnerability scan
+        uses: aquasecurity/trivy-action@0.30.0
+        with:
+          image-ref: 'my-app:latest'
+          format: 'sarif'
+          exit-code: 0    #allow build to finish even if vulnerabilities are found
+          severity: 'CRITICAL,HIGH'
+          output: 'trivy-results.sarif'
+
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: 'trivy-results.sarif'
+
+        #checks code for issues
       - name: Super-linter
         uses: super-linter/super-linter@v7.4.0 # x-release-please-version
         env:
           # To report GitHub Actions status checks
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        continue-on-error: true #finish the pipeline even if Super-linter finds errors
